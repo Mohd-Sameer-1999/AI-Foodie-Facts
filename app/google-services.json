@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "927910997139",
+    "project_id": "ai-foodie-facts",
+    "storage_bucket": "ai-foodie-facts.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927910997139:android:ade944c1772c2a21c9f166",
+        "android_client_info": {
+          "package_name": "com.samdroid.aifoodiefacts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927910997139-qln77v0kt35vspj96ldkudkv4p3vm07e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.samdroid.aifoodiefacts",
+            "certificate_hash": "0b3c388607771deeba861cf32b4b4f64f02b217b"
+          }
+        },
+        {
+          "client_id": "927910997139-cfi8se1uglfipt2t9ipsnflc567lggn8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfigzf1vPGF6JVX3Ab4nDCPHQkSj-GAsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927910997139-cfi8se1uglfipt2t9ipsnflc567lggn8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
