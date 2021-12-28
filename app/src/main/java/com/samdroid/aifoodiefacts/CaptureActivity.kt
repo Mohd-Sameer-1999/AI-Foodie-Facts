@@ -182,7 +182,7 @@ class CaptureActivity : AppCompatActivity() {
             try {
                 cameraProvider.unbindAll()
 
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
+                cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalyzer, preview)
 
             } catch (ex : java.lang.Exception){
                 ex.printStackTrace()
