@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:927910997139:android:ade944c1772c2a21c9f166",
+        "mobilesdk_app_id": "1:927910997139:android:191a3668fef5af6ac9f166",
         "android_client_info": {
           "package_name": "com.samdroid.aifoodiefacts"
         }
       },
       "oauth_client": [
         {
-          "client_id": "927910997139-qln77v0kt35vspj96ldkudkv4p3vm07e.apps.googleusercontent.com",
+          "client_id": "927910997139-eni6i4rt44fnb77lp9jrrapfu0iqcuth.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.samdroid.aifoodiefacts",

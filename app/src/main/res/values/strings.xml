@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">AI Foodie Facts</string>
+    <string name="app_name">Vision</string>
+    <string name="sign_in_cancelled">Sign in cancelled</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="signed_in">Signed in</string>
+    <string name="unknown_error">unknown error</string>
+    <string name="unknown_sign_in_response">unknown sign in response</string>
 </resources>
