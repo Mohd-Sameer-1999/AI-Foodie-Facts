@@ -4,10 +4,14 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.SpannableString
@@ -133,17 +137,25 @@ class MainActivity : AppCompatActivity() {
         }
         fabTakePicture.setOnClickListener{
 //            Toast.makeText(this, "take picture clicked", Toast.LENGTH_SHORT).show()
-            if(auth.currentUser != null){
-                flag = 0
-                checkPermission()
-            } else {
-                showSnackbar("Please sign in to use this feature")
+            if (checkForInternet(this)) {
+                if (auth.currentUser != null) {
+                    flag = 0
+                    checkPermission()
+                } else {
+                    showSnackbar("Please sign in to use this feature")
+                }
+            } else{
+                showSnackbar(resources.getString(R.string.no_internet_connection))
             }
 
         }
         fabScanBarcode.setOnClickListener{
-            flag = 1
-            checkPermission()
+            if (checkForInternet(this)) {
+                flag = 1
+                checkPermission()
+            } else{
+                showSnackbar(resources.getString(R.string.no_internet_connection))
+            }
         }
 
         auth = FirebaseAuth.getInstance()!!
@@ -183,26 +195,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.sign_in){
+        if (item.itemId == R.id.sign_in) {
 //            Toast.makeText(this, "sign in clicked", Toast.LENGTH_SHORT).show()
-            if(auth.currentUser == null){
-                startActivity(Intent(this, AuthenticationActivity::class.java))
-            }else{
-                val alertDialogBuilder = AlertDialog.Builder(this)
-                alertDialogBuilder.setTitle("Sign Out")
-                    .setMessage("Are you sure you want to sign out?")
-                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
-                        AuthUI.getInstance().signOut(this)
-                            .addOnCompleteListener(OnCompleteListener {
-                                showSnackbar("You have successfully signed out")
-                                menu.findItem(R.id.sign_in).setTitle("Sign in")
-                                setTitle("Vision")
+            if (checkForInternet(this)) {
+                if (auth.currentUser == null) {
+                    startActivity(Intent(this, AuthenticationActivity::class.java))
+                } else {
+                    val alertDialogBuilder = AlertDialog.Builder(this)
+                    alertDialogBuilder.setTitle("Sign Out")
+                        .setMessage("Are you sure you want to sign out?")
+                        .setPositiveButton(
+                            "Yes",
+                            DialogInterface.OnClickListener { dialogInterface, i ->
+                                AuthUI.getInstance().signOut(this)
+                                    .addOnCompleteListener(OnCompleteListener {
+                                        showSnackbar("You have successfully signed out")
+                                        menu.findItem(R.id.sign_in).setTitle("Sign in")
+                                        setTitle("Vision")
+                                    })
                             })
-                    })
-                    .setNegativeButton("No", null)
-                val alertDialog = alertDialogBuilder.create()
-                alertDialog.show()
+                        .setNegativeButton("No", null)
+                    val alertDialog = alertDialogBuilder.create()
+                    alertDialog.show()
+                }
+            } else{
+                showSnackbar(resources.getString(R.string.no_internet_connection))
             }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -446,8 +465,6 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            // Add other 'when' lines to check for other
-            // permissions this app might request.
             else -> {
                 // Ignore all other requests.
             }
@@ -462,6 +479,31 @@ class MainActivity : AppCompatActivity() {
     private fun openCameraIntent(){
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraLauncher.launch(cameraIntent)
+    }
+
+    private fun checkForInternet(context: Context): Boolean{
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            val network = connectivityManager.activeNetwork?: return false
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network)?:return false
+            return when{
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
+
+                else -> false
+            }
+        } else {
+            @Suppress("DEPRECATION") val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION") return networkInfo.isConnected
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(!checkForInternet(this.applicationContext)){
+            showSnackbar(resources.getString(R.string.no_internet_connection))
+        }
+
     }
 
 
