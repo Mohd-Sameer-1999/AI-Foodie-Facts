@@ -4,9 +4,8 @@
     package="com.samdroid.aifoodiefacts">
 
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.flash" />
 
     <application
         android:allowBackup="true"
@@ -15,14 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AIFoodieFacts">
+        <activity
+            android:name=".AuthenticationActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="barcode" />
+            android:value="barcode, ica" />
 
-        <activity
-            android:name=".CaptureActivity"
-            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
